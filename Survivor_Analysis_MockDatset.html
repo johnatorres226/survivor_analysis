@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.55">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="John Torres">
+
+<title>Survivor Analysis Python Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="Survivor_Analysis_MockDatset_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Survivor_Analysis_MockDatset_files/libs/quarto-html/quarto.js"></script>
+<script src="Survivor_Analysis_MockDatset_files/libs/quarto-html/popper.min.js"></script>
+<script src="Survivor_Analysis_MockDatset_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Survivor_Analysis_MockDatset_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Survivor_Analysis_MockDatset_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Survivor_Analysis_MockDatset_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Survivor_Analysis_MockDatset_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Survivor_Analysis_MockDatset_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Survivor_Analysis_MockDatset_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#first-step-lets-create-the-mock-the-dataset" id="toc-first-step-lets-create-the-mock-the-dataset" class="nav-link active" data-scroll-target="#first-step-lets-create-the-mock-the-dataset"><span class="header-section-number">1</span> First Step: Let’s Create the mock the Dataset</a></li>
+  <li><a href="#second-step-lets-explore-the-dataset" id="toc-second-step-lets-explore-the-dataset" class="nav-link" data-scroll-target="#second-step-lets-explore-the-dataset"><span class="header-section-number">2</span> Second Step: Let’s Explore the Dataset</a>
+  <ul class="collapse">
+  <li><a href="#descriptive-stats" id="toc-descriptive-stats" class="nav-link" data-scroll-target="#descriptive-stats"><span class="header-section-number">2.1</span> Descriptive Stats</a></li>
+  <li><a href="#demographics" id="toc-demographics" class="nav-link" data-scroll-target="#demographics"><span class="header-section-number">2.2</span> Demographics</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values"><span class="header-section-number">2.3</span> Missing Values</a></li>
+  <li><a href="#group-distribution" id="toc-group-distribution" class="nav-link" data-scroll-target="#group-distribution"><span class="header-section-number">2.4</span> Group Distribution</a></li>
+  <li><a href="#follow-up-time-by-group" id="toc-follow-up-time-by-group" class="nav-link" data-scroll-target="#follow-up-time-by-group"><span class="header-section-number">2.5</span> Follow-Up Time by Group</a></li>
+  <li><a href="#covariates" id="toc-covariates" class="nav-link" data-scroll-target="#covariates"><span class="header-section-number">2.6</span> Covariates</a></li>
+  <li><a href="#outcomes-by-age-and-bmi" id="toc-outcomes-by-age-and-bmi" class="nav-link" data-scroll-target="#outcomes-by-age-and-bmi"><span class="header-section-number">2.7</span> Outcomes by Age and BMI</a></li>
+  </ul></li>
+  <li><a href="#third-step-survivor-analysis-of-experimental-and-control-group" id="toc-third-step-survivor-analysis-of-experimental-and-control-group" class="nav-link" data-scroll-target="#third-step-survivor-analysis-of-experimental-and-control-group"><span class="header-section-number">3</span> Third Step: Survivor Analysis of Experimental and Control Group</a>
+  <ul class="collapse">
+  <li><a href="#kaplan-meier-curves" id="toc-kaplan-meier-curves" class="nav-link" data-scroll-target="#kaplan-meier-curves"><span class="header-section-number">3.1</span> Kaplan-Meier Curves</a></li>
+  <li><a href="#log-rank-test" id="toc-log-rank-test" class="nav-link" data-scroll-target="#log-rank-test"><span class="header-section-number">3.2</span> Log-Rank Test</a></li>
+  <li><a href="#cox-proportional-hazards-model-check-for-multicollinearity" id="toc-cox-proportional-hazards-model-check-for-multicollinearity" class="nav-link" data-scroll-target="#cox-proportional-hazards-model-check-for-multicollinearity"><span class="header-section-number">3.3</span> Cox Proportional Hazards Model: Check for Multicollinearity</a></li>
+  <li><a href="#cox-proportional-hazards-model-check-infinte-values" id="toc-cox-proportional-hazards-model-check-infinte-values" class="nav-link" data-scroll-target="#cox-proportional-hazards-model-check-infinte-values"><span class="header-section-number">3.4</span> Cox Proportional Hazards Model: Check Infinte Values</a></li>
+  <li><a href="#initialize-and-fit-the-cox-proportional-hazards-model" id="toc-initialize-and-fit-the-cox-proportional-hazards-model" class="nav-link" data-scroll-target="#initialize-and-fit-the-cox-proportional-hazards-model"><span class="header-section-number">3.5</span> Initialize and fit the Cox Proportional Hazards model</a></li>
+  </ul></li>
+  <li><a href="#fourth-step-model-validation-and-sensitiviy-analysis" id="toc-fourth-step-model-validation-and-sensitiviy-analysis" class="nav-link" data-scroll-target="#fourth-step-model-validation-and-sensitiviy-analysis"><span class="header-section-number">4</span> Fourth Step: Model Validation and Sensitiviy Analysis</a>
+  <ul class="collapse">
+  <li><a href="#model-validation" id="toc-model-validation" class="nav-link" data-scroll-target="#model-validation"><span class="header-section-number">4.1</span> Model Validation</a></li>
+  <li><a href="#log-log-survival-plot" id="toc-log-log-survival-plot" class="nav-link" data-scroll-target="#log-log-survival-plot"><span class="header-section-number">4.2</span> Log-Log Survival Plot</a></li>
+  <li><a href="#c-index" id="toc-c-index" class="nav-link" data-scroll-target="#c-index"><span class="header-section-number">4.3</span> C-Index</a></li>
+  <li><a href="#residuals-analysis" id="toc-residuals-analysis" class="nav-link" data-scroll-target="#residuals-analysis"><span class="header-section-number">4.4</span> Residuals Analysis</a></li>
+  <li><a href="#sensitiviy-analysis" id="toc-sensitiviy-analysis" class="nav-link" data-scroll-target="#sensitiviy-analysis"><span class="header-section-number">4.5</span> Sensitiviy Analysis</a></li>
+  <li><a href="#model-re-specification-with-interaction-terms" id="toc-model-re-specification-with-interaction-terms" class="nav-link" data-scroll-target="#model-re-specification-with-interaction-terms"><span class="header-section-number">4.6</span> Model Re-specification with Interaction Terms</a></li>
+  <li><a href="#outlier-detection" id="toc-outlier-detection" class="nav-link" data-scroll-target="#outlier-detection"><span class="header-section-number">4.7</span> Outlier Detection</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Survivor Analysis Python Project</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>John Torres </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="cdbf7a8e-3159-4527-9601-50382eda80f6" class="cell" data-execution_count="144">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statistics <span class="im">as</span> stats</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="first-step-lets-create-the-mock-the-dataset" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> First Step: Let’s Create the mock the Dataset</h1>
+<div id="31aab6bf-d9ce-42f9-8b62-e8659c602f22" class="cell" data-execution_count="146">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create the dataset</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of samples</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate mock data</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PatientID"</span>: np.arange(<span class="dv">1</span>, n_samples <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Group"</span>: np.random.choice([<span class="dv">0</span>, <span class="dv">1</span>], size<span class="op">=</span>n_samples),  <span class="co"># 0 for control, 1 for experimental</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Age"</span>: np.random.randint(<span class="dv">18</span>, <span class="dv">90</span>, size<span class="op">=</span>n_samples),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gender"</span>: np.random.choice([<span class="st">"Male"</span>, <span class="st">"Female"</span>], size<span class="op">=</span>n_samples),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BMI"</span>: np.<span class="bu">round</span>(np.random.uniform(<span class="fl">18.5</span>, <span class="dv">40</span>, size<span class="op">=</span>n_samples), <span class="dv">1</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"BloodPressure"</span>: np.<span class="bu">round</span>(np.random.uniform(<span class="dv">90</span>, <span class="dv">180</span>, size<span class="op">=</span>n_samples), <span class="dv">1</span>),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Cholesterol"</span>: np.<span class="bu">round</span>(np.random.uniform(<span class="dv">100</span>, <span class="dv">300</span>, size<span class="op">=</span>n_samples), <span class="dv">1</span>),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Glucose"</span>: np.<span class="bu">round</span>(np.random.uniform(<span class="dv">70</span>, <span class="dv">200</span>, size<span class="op">=</span>n_samples), <span class="dv">1</span>),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"SmokingStatus"</span>: np.random.choice([<span class="st">"Never"</span>, <span class="st">"Former"</span>, <span class="st">"Current"</span>], size<span class="op">=</span>n_samples),</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"PhysicalActivity"</span>: np.random.choice([<span class="st">"Low"</span>, <span class="st">"Moderate"</span>, <span class="st">"High"</span>], size<span class="op">=</span>n_samples),</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Comorbidities"</span>: np.random.randint(<span class="dv">0</span>, <span class="dv">5</span>, size<span class="op">=</span>n_samples),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Medications"</span>: np.random.choice([<span class="dv">0</span>, <span class="dv">1</span>], size<span class="op">=</span>n_samples), <span class="co"># 0 for No Medication, 1 for Taking Some Medication</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"FollowUpTime"</span>: np.<span class="bu">round</span>(np.random.uniform(<span class="dv">1</span>, <span class="dv">60</span>, size<span class="op">=</span>n_samples), <span class="dv">1</span>), <span class="co">#in months</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Outcome"</span>: np.random.choice([<span class="dv">0</span>, <span class="dv">1</span>], size<span class="op">=</span>n_samples), <span class="co"># 0 for Censored, 1 for Event Occurred</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Education"</span>: np.random.choice([<span class="st">"High School"</span>, <span class="st">"Bachelor"</span>, <span class="st">"Master"</span>, <span class="st">"PhD"</span>], size<span class="op">=</span>n_samples),</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RaceEthnicity"</span>: np.random.choice([<span class="st">"White"</span>, <span class="st">"Black"</span>, <span class="st">"Hispanic"</span>, <span class="st">"Asian"</span>, <span class="st">"Other"</span>], size<span class="op">=</span>n_samples),</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Income"</span>: np.random.choice([<span class="st">"&lt;30K"</span>, <span class="st">"30-60K"</span>, <span class="st">"60-100K"</span>, <span class="st">"&gt;100K"</span>], size<span class="op">=</span>n_samples),</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"MaritalStatus"</span>: np.random.choice([<span class="st">"Single"</span>, <span class="st">"Married"</span>, <span class="st">"Divorced"</span>, <span class="st">"Widowed"</span>], size<span class="op">=</span>n_samples),</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"EmploymentStatus"</span>: np.random.choice([<span class="st">"Employed"</span>, <span class="st">"Unemployed"</span>, <span class="st">"Retired"</span>], size<span class="op">=</span>n_samples),</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Create DataFrame</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>mock_data <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>mock_data.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="146">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">PatientID</th>
+<th data-quarto-table-cell-role="th">Group</th>
+<th data-quarto-table-cell-role="th">Age</th>
+<th data-quarto-table-cell-role="th">Gender</th>
+<th data-quarto-table-cell-role="th">BMI</th>
+<th data-quarto-table-cell-role="th">BloodPressure</th>
+<th data-quarto-table-cell-role="th">Cholesterol</th>
+<th data-quarto-table-cell-role="th">Glucose</th>
+<th data-quarto-table-cell-role="th">SmokingStatus</th>
+<th data-quarto-table-cell-role="th">PhysicalActivity</th>
+<th data-quarto-table-cell-role="th">Comorbidities</th>
+<th data-quarto-table-cell-role="th">Medications</th>
+<th data-quarto-table-cell-role="th">FollowUpTime</th>
+<th data-quarto-table-cell-role="th">Outcome</th>
+<th data-quarto-table-cell-role="th">Education</th>
+<th data-quarto-table-cell-role="th">RaceEthnicity</th>
+<th data-quarto-table-cell-role="th">Income</th>
+<th data-quarto-table-cell-role="th">MaritalStatus</th>
+<th data-quarto-table-cell-role="th">EmploymentStatus</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>0</td>
+<td>80</td>
+<td>Male</td>
+<td>37.9</td>
+<td>165.4</td>
+<td>129.5</td>
+<td>95.3</td>
+<td>Never</td>
+<td>High</td>
+<td>2</td>
+<td>0</td>
+<td>18.5</td>
+<td>1</td>
+<td>Bachelor</td>
+<td>Hispanic</td>
+<td>60-100K</td>
+<td>Divorced</td>
+<td>Employed</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>1</td>
+<td>49</td>
+<td>Female</td>
+<td>37.3</td>
+<td>175.0</td>
+<td>165.6</td>
+<td>77.5</td>
+<td>Current</td>
+<td>High</td>
+<td>2</td>
+<td>1</td>
+<td>10.6</td>
+<td>0</td>
+<td>Bachelor</td>
+<td>Black</td>
+<td>&gt;100K</td>
+<td>Married</td>
+<td>Retired</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>0</td>
+<td>50</td>
+<td>Male</td>
+<td>31.3</td>
+<td>151.5</td>
+<td>186.8</td>
+<td>114.5</td>
+<td>Never</td>
+<td>Low</td>
+<td>3</td>
+<td>0</td>
+<td>40.9</td>
+<td>0</td>
+<td>High School</td>
+<td>Black</td>
+<td>&gt;100K</td>
+<td>Divorced</td>
+<td>Employed</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>4</td>
+<td>0</td>
+<td>84</td>
+<td>Male</td>
+<td>31.4</td>
+<td>134.7</td>
+<td>117.7</td>
+<td>105.1</td>
+<td>Never</td>
+<td>Low</td>
+<td>0</td>
+<td>0</td>
+<td>3.2</td>
+<td>1</td>
+<td>High School</td>
+<td>Other</td>
+<td>&gt;100K</td>
+<td>Single</td>
+<td>Employed</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>5</td>
+<td>0</td>
+<td>35</td>
+<td>Female</td>
+<td>32.8</td>
+<td>145.6</td>
+<td>144.1</td>
+<td>195.6</td>
+<td>Current</td>
+<td>High</td>
+<td>2</td>
+<td>1</td>
+<td>37.6</td>
+<td>1</td>
+<td>Master</td>
+<td>Black</td>
+<td>&lt;30K</td>
+<td>Widowed</td>
+<td>Retired</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>1</td>
+<td>42</td>
+<td>Male</td>
+<td>22.3</td>
+<td>168.2</td>
+<td>219.6</td>
+<td>142.5</td>
+<td>Former</td>
+<td>Moderate</td>
+<td>4</td>
+<td>1</td>
+<td>42.2</td>
+<td>0</td>
+<td>Bachelor</td>
+<td>Black</td>
+<td>&lt;30K</td>
+<td>Widowed</td>
+<td>Retired</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>7</td>
+<td>0</td>
+<td>71</td>
+<td>Male</td>
+<td>38.2</td>
+<td>141.4</td>
+<td>247.1</td>
+<td>115.1</td>
+<td>Current</td>
+<td>Low</td>
+<td>4</td>
+<td>1</td>
+<td>13.7</td>
+<td>0</td>
+<td>Master</td>
+<td>White</td>
+<td>&lt;30K</td>
+<td>Single</td>
+<td>Unemployed</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>8</td>
+<td>0</td>
+<td>75</td>
+<td>Male</td>
+<td>27.5</td>
+<td>92.7</td>
+<td>299.7</td>
+<td>145.5</td>
+<td>Current</td>
+<td>Moderate</td>
+<td>3</td>
+<td>0</td>
+<td>3.5</td>
+<td>0</td>
+<td>Master</td>
+<td>Other</td>
+<td>60-100K</td>
+<td>Divorced</td>
+<td>Unemployed</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>9</td>
+<td>0</td>
+<td>84</td>
+<td>Male</td>
+<td>26.7</td>
+<td>173.8</td>
+<td>286.6</td>
+<td>88.1</td>
+<td>Current</td>
+<td>Low</td>
+<td>0</td>
+<td>1</td>
+<td>22.5</td>
+<td>1</td>
+<td>High School</td>
+<td>Other</td>
+<td>&lt;30K</td>
+<td>Divorced</td>
+<td>Unemployed</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>10</td>
+<td>1</td>
+<td>63</td>
+<td>Female</td>
+<td>29.7</td>
+<td>152.1</td>
+<td>228.5</td>
+<td>127.7</td>
+<td>Former</td>
+<td>Low</td>
+<td>0</td>
+<td>1</td>
+<td>6.8</td>
+<td>0</td>
+<td>PhD</td>
+<td>Black</td>
+<td>&lt;30K</td>
+<td>Single</td>
+<td>Unemployed</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="second-step-lets-explore-the-dataset" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Second Step: Let’s Explore the Dataset</h1>
+<section id="descriptive-stats" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="descriptive-stats"><span class="header-section-number">2.1</span> Descriptive Stats</h2>
+<div id="93be6dc7-2d80-4a7b-a231-31a71fd11fc0" class="cell" data-execution_count="148">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Descriptive Stats of numerical vars</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df_describe <span class="op">=</span> mock_data.describe().<span class="bu">round</span>(<span class="dv">2</span>).drop(columns <span class="op">=</span> [<span class="st">"PatientID"</span>,<span class="st">"Group"</span>,<span class="st">"Outcome"</span>,<span class="st">"Medications"</span>, <span class="st">"Comorbidities"</span>])</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df_describe <span class="op">=</span> df_describe.reset_index().drop(index<span class="op">=</span><span class="dv">0</span>).set_index(<span class="st">"index"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df_describe.index.name<span class="op">=</span><span class="va">None</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>df_describe.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="148">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Age</th>
+<th data-quarto-table-cell-role="th">BMI</th>
+<th data-quarto-table-cell-role="th">BloodPressure</th>
+<th data-quarto-table-cell-role="th">Cholesterol</th>
+<th data-quarto-table-cell-role="th">Glucose</th>
+<th data-quarto-table-cell-role="th">FollowUpTime</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>52.84</td>
+<td>29.47</td>
+<td>135.41</td>
+<td>198.67</td>
+<td>135.12</td>
+<td>29.19</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">std</td>
+<td>20.89</td>
+<td>6.40</td>
+<td>25.69</td>
+<td>57.29</td>
+<td>38.28</td>
+<td>17.27</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">min</td>
+<td>18.00</td>
+<td>18.60</td>
+<td>90.30</td>
+<td>100.30</td>
+<td>70.00</td>
+<td>1.10</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>34.00</td>
+<td>23.60</td>
+<td>113.05</td>
+<td>151.85</td>
+<td>103.42</td>
+<td>14.38</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>52.00</td>
+<td>29.70</td>
+<td>136.80</td>
+<td>197.50</td>
+<td>134.65</td>
+<td>28.55</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>72.00</td>
+<td>35.02</td>
+<td>156.65</td>
+<td>246.50</td>
+<td>169.42</td>
+<td>44.20</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">max</td>
+<td>89.00</td>
+<td>40.00</td>
+<td>179.90</td>
+<td>299.70</td>
+<td>199.70</td>
+<td>59.70</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="demographics" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="demographics"><span class="header-section-number">2.2</span> Demographics</h2>
+<div id="8eb228e9-cfc4-4269-ba27-2fa0a3ed0445" class="cell" data-execution_count="149">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Demographic Information</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Age   Gender  Education   RaceEthnicity   Income  MaritalStatus   EmploymentStatus SmokingStatus  PhysicalActivity    Comorbidities</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>df_hold <span class="op">=</span> mock_data[[<span class="st">'Age'</span>, <span class="st">'Gender'</span>, <span class="st">'Education'</span>, <span class="st">'RaceEthnicity'</span>, <span class="st">'Income'</span>, <span class="st">'MaritalStatus'</span>, <span class="st">'EmploymentStatus'</span>,<span class="st">'SmokingStatus'</span>, <span class="st">'PhysicalActivity'</span>, <span class="st">'Comorbidities'</span>]]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the bins and labels for age groups</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>bins <span class="op">=</span> [<span class="op">-</span><span class="bu">float</span>(<span class="st">'inf'</span>), <span class="dv">17</span>, <span class="dv">24</span>, <span class="dv">34</span>, <span class="dv">44</span>, <span class="dv">54</span>, <span class="dv">64</span>, <span class="bu">float</span>(<span class="st">'inf'</span>)]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">'Under 18'</span>, <span class="st">'18-24 years old'</span>, <span class="st">'25-34 years old'</span>, <span class="st">'35-44 years old'</span>, <span class="st">'45-54 years old'</span>, <span class="st">'55-64 years old'</span>, <span class="st">'65 or older'</span>]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a copy of the DataFrame to avoid the warning</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>dem <span class="op">=</span> df_hold.copy()</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new column 'AgeGroup' with categorized age groups</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>dem.loc[:, <span class="st">'AgeGroup'</span>] <span class="op">=</span> pd.cut(dem[<span class="st">'Age'</span>], bins<span class="op">=</span>bins, labels<span class="op">=</span>labels, right<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a demographic table with counts for each category</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>demographic_counts <span class="op">=</span> {</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Variable'</span>: [],</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Category'</span>: [],</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Count'</span>: []</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a list of columns to include in the table</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [<span class="st">'AgeGroup'</span>, <span class="st">'Gender'</span>, <span class="st">'Education'</span>, <span class="st">'RaceEthnicity'</span>, <span class="st">'Income'</span>, <span class="st">'MaritalStatus'</span>, <span class="st">'EmploymentStatus'</span>, <span class="st">'SmokingStatus'</span>, <span class="st">'PhysicalActivity'</span>, <span class="st">'Comorbidities'</span>]</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a demographic table with counts for each category</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>demographic_counts <span class="op">=</span> {</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Variable'</span>: [],</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Category'</span>: [],</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">'N'</span>: [],</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a list of columns to include in the table</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>columns <span class="op">=</span> [<span class="st">'AgeGroup'</span>, <span class="st">'Gender'</span>, <span class="st">'Education'</span>, <span class="st">'RaceEthnicity'</span>, <span class="st">'Income'</span>, <span class="st">'MaritalStatus'</span>, <span class="st">'EmploymentStatus'</span>, <span class="st">'SmokingStatus'</span>, <span class="st">'PhysicalActivity'</span>, <span class="st">'Comorbidities'</span>]</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate counts for each variable and its categories</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> columns:</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    counts <span class="op">=</span> dem[column].value_counts()</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> category, count <span class="kw">in</span> counts.items():</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        demographic_counts[<span class="st">'Variable'</span>].append(column)</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        demographic_counts[<span class="st">'Category'</span>].append(category)</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>        demographic_counts[<span class="st">'N'</span>].append(count)</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame from the counts</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>demographic_table <span class="op">=</span> pd.DataFrame(demographic_counts)</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(demographic_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Variable         Category    N
+0           AgeGroup      65 or older  176
+1           AgeGroup  25-34 years old   77
+2           AgeGroup  35-44 years old   75
+3           AgeGroup  45-54 years old   61
+4           AgeGroup  55-64 years old   60
+5           AgeGroup  18-24 years old   51
+6           AgeGroup         Under 18    0
+7             Gender             Male  261
+8             Gender           Female  239
+9          Education         Bachelor  137
+10         Education              PhD  134
+11         Education      High School  120
+12         Education           Master  109
+13     RaceEthnicity            Other  109
+14     RaceEthnicity            Black  108
+15     RaceEthnicity         Hispanic   97
+16     RaceEthnicity            White   93
+17     RaceEthnicity            Asian   93
+18            Income           30-60K  139
+19            Income             &lt;30K  127
+20            Income          60-100K  121
+21            Income            &gt;100K  113
+22     MaritalStatus         Divorced  128
+23     MaritalStatus           Single  127
+24     MaritalStatus          Widowed  123
+25     MaritalStatus          Married  122
+26  EmploymentStatus          Retired  177
+27  EmploymentStatus       Unemployed  173
+28  EmploymentStatus         Employed  150
+29     SmokingStatus            Never  175
+30     SmokingStatus          Current  165
+31     SmokingStatus           Former  160
+32  PhysicalActivity             High  179
+33  PhysicalActivity         Moderate  170
+34  PhysicalActivity              Low  151
+35     Comorbidities                4  105
+36     Comorbidities                3  104
+37     Comorbidities                1   98
+38     Comorbidities                2   97
+39     Comorbidities                0   96</code></pre>
+</div>
+</div>
+</section>
+<section id="missing-values" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="missing-values"><span class="header-section-number">2.3</span> Missing Values</h2>
+<div id="0377ed85-3126-44bc-9871-3af74cd9e1f4" class="cell" data-execution_count="150">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Missing Value -- General Practice, but redundant here considering this is a rand-gerenrated DF. </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>missing <span class="op">=</span> mock_data.isnull().<span class="bu">sum</span>()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(missing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>PatientID           0
+Group               0
+Age                 0
+Gender              0
+BMI                 0
+BloodPressure       0
+Cholesterol         0
+Glucose             0
+SmokingStatus       0
+PhysicalActivity    0
+Comorbidities       0
+Medications         0
+FollowUpTime        0
+Outcome             0
+Education           0
+RaceEthnicity       0
+Income              0
+MaritalStatus       0
+EmploymentStatus    0
+dtype: int64</code></pre>
+</div>
+</div>
+</section>
+<section id="group-distribution" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="group-distribution"><span class="header-section-number">2.4</span> Group Distribution</h2>
+<div id="4b42b16f-cdd8-4da4-8ce1-093d64b47639" class="cell" data-execution_count="151">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Group Distribution</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>groups <span class="op">=</span> mock_data.copy(deep<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>groups[<span class="st">'Group'</span>] <span class="op">=</span> groups[<span class="st">'Group'</span>].replace({<span class="dv">0</span>:<span class="st">'Experimental'</span>, <span class="dv">1</span>:<span class="st">'Control'</span>})</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>groups[<span class="st">'Outcome'</span>] <span class="op">=</span> groups[<span class="st">'Outcome'</span>].replace({<span class="dv">0</span>:<span class="st">'Censored'</span>, <span class="dv">1</span>:<span class="st">'Event Occurred'</span>})</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>grp_outcome <span class="op">=</span> groups.groupby([<span class="st">'Group'</span>, <span class="st">'Outcome'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'Count'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the aesthetic style of the plots</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>sns.set_style(<span class="st">"whitegrid"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the bar plot</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>), dpi<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>bar_plot <span class="op">=</span> sns.barplot(x<span class="op">=</span><span class="st">'Group'</span>, y<span class="op">=</span><span class="st">'Count'</span>, hue<span class="op">=</span><span class="st">'Outcome'</span>, data<span class="op">=</span>grp_outcome, palette<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Add titles and labels</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Event Occurrence by Group Type'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">''</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Count'</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Outcome'</span>, loc<span class="op">=</span><span class="st">"lower right"</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>plt.xticks(fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Add count annotations to the bars</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> bar_plot.patches:</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    height <span class="op">=</span> p.get_height()</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    bar_plot.annotate(<span class="ss">f'</span><span class="sc">{</span><span class="bu">int</span>(height)<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>                      (p.get_x() <span class="op">+</span> p.get_width() <span class="op">/</span> <span class="fl">2.</span>, height),</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>                      ha<span class="op">=</span><span class="st">'center'</span>, va<span class="op">=</span><span class="st">'center'</span>, fontsize<span class="op">=</span><span class="dv">14</span>, color<span class="op">=</span><span class="st">'black'</span>, xytext<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">5</span>),</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>                      textcoords<span class="op">=</span><span class="st">'offset points'</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the plot</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Survivor_Analysis_MockDatset_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="follow-up-time-by-group" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="follow-up-time-by-group"><span class="header-section-number">2.5</span> Follow-Up Time by Group</h2>
+<div id="b3d67ee0-5eb7-4f8b-a12e-fb2209aac445" class="cell" data-execution_count="152">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparisoon of Follow-Up Time by Group</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sns.boxplot(x<span class="op">=</span><span class="st">'Group'</span>, y<span class="op">=</span><span class="st">'FollowUpTime'</span>, data<span class="op">=</span>mock_data)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Follow-Up Time by Group'</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Group (0=Control, 1=Experimental)'</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Follow-Up Time (Months)'</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Survivor_Analysis_MockDatset_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="covariates" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="covariates"><span class="header-section-number">2.6</span> Covariates</h2>
+<div id="18ba9826-0947-4d31-87b0-914d7315f8aa" class="cell" data-execution_count="224">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Covariates</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Suppress specific FutureWarnings related to Seaborn</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">FutureWarning</span>, module<span class="op">=</span><span class="st">'seaborn._oldcore'</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">UserWarning</span>, module<span class="op">=</span><span class="st">'seaborn.axisgrid'</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure there are no infinite values in the </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>mock_data.replace([np.inf, <span class="op">-</span>np.inf], np.nan, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Pairplot to examine relationships</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>pairplot <span class="op">=</span> sns.pairplot(mock_data[[<span class="st">'Age'</span>, <span class="st">'BMI'</span>, <span class="st">'Comorbidities'</span>, <span class="st">'FollowUpTime'</span>, <span class="st">'Outcome'</span>]], hue<span class="op">=</span><span class="st">'Outcome'</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>pairplot.fig.suptitle(<span class="st">'Pairplot of Covariates by Outcome'</span>, y<span class="op">=</span><span class="fl">1.02</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Survivor_Analysis_MockDatset_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="outcomes-by-age-and-bmi" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="outcomes-by-age-and-bmi"><span class="header-section-number">2.7</span> Outcomes by Age and BMI</h2>
+<div id="7e32b5f1-31a9-4002-854e-fea8c1482cc2" class="cell" data-execution_count="210">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribution of Age by Outcome</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sns.boxplot(x<span class="op">=</span><span class="st">'Outcome'</span>, y<span class="op">=</span><span class="st">'Age'</span>, data<span class="op">=</span>mock_data)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Age Distribution by Outcome'</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Outcome (1=Event, 0=Censored)'</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Age'</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribution of BMI by Outcome</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>sns.boxplot(x<span class="op">=</span><span class="st">'Outcome'</span>, y<span class="op">=</span><span class="st">'BMI'</span>, data<span class="op">=</span>mock_data)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'BMI Distribution by Outcome'</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Outcome (1=Event, 0=Censored)'</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'BMI'</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Survivor_Analysis_MockDatset_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Survivor_Analysis_MockDatset_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="third-step-survivor-analysis-of-experimental-and-control-group" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Third Step: Survivor Analysis of Experimental and Control Group</h1>
+<section id="kaplan-meier-curves" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="kaplan-meier-curves"><span class="header-section-number">3.1</span> Kaplan-Meier Curves</h2>
+<div id="06d8d183-00ff-4ecb-b171-02f6392d1bdc" class="cell" data-scrolled="true" data-execution_count="155">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Kaplan-Meier Curves</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> KaplanMeierFitter</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>kmf <span class="op">=</span> KaplanMeierFitter()</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter data for each group and check if they are empty</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>control_group <span class="op">=</span> mock_data[mock_data[<span class="st">'Group'</span>] <span class="op">==</span> <span class="dv">0</span>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>experimental_group <span class="op">=</span> mock_data[mock_data[<span class="st">'Group'</span>] <span class="op">==</span> <span class="dv">1</span>]</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the data for the control group</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>kmf.fit(control_group[<span class="st">'FollowUpTime'</span>], event_observed<span class="op">=</span>control_group[<span class="st">'Outcome'</span>], label<span class="op">=</span><span class="st">'Control'</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> kmf.plot_survival_function()</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the data for the experimental group</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>kmf.fit(experimental_group[<span class="st">'FollowUpTime'</span>], event_observed<span class="op">=</span>experimental_group[<span class="st">'Outcome'</span>], label<span class="op">=</span><span class="st">'Experimental'</span>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>kmf.plot_survival_function(ax<span class="op">=</span>ax)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Kaplan-Meier Survival Curves'</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time (Months)'</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Survival Probability'</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Survivor_Analysis_MockDatset_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="log-rank-test" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="log-rank-test"><span class="header-section-number">3.2</span> Log-Rank Test</h2>
+<div id="ff24f1f3-f61c-481d-a2f8-221afb759fa6" class="cell" data-execution_count="156">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Statistical Testing: Log-Rank Test</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lifelines.statistics <span class="im">import</span> logrank_test</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract survival times and event indicators</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>control_times <span class="op">=</span> control_group[<span class="st">'FollowUpTime'</span>]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>control_events <span class="op">=</span> control_group[<span class="st">'Outcome'</span>]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>experimental_times <span class="op">=</span> experimental_group[<span class="st">'FollowUpTime'</span>]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>experimental_events <span class="op">=</span> experimental_group[<span class="st">'Outcome'</span>]</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform the log-rank test</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> logrank_test(control_times, experimental_times, event_observed_A<span class="op">=</span>control_events, event_observed_B<span class="op">=</span>experimental_events)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;lifelines.StatisticalResult: logrank_test&gt;
+               t_0 = -1
+ null_distribution = chi squared
+degrees_of_freedom = 1
+         test_name = logrank_test
+
+---
+ test_statistic    p  -log2(p)
+           0.42 0.52      0.95</code></pre>
+</div>
+</div>
+</section>
+<section id="cox-proportional-hazards-model-check-for-multicollinearity" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="cox-proportional-hazards-model-check-for-multicollinearity"><span class="header-section-number">3.3</span> Cox Proportional Hazards Model: Check for Multicollinearity</h2>
+<div id="9e9b578a-b27b-4319-a0f3-e25c52544078" class="cell" data-execution_count="188">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cox Proportional Hazards Model</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> CoxPHFitter</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> variance_inflation_factor</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lifelines <span class="im">import</span> CoxPHFitter</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Opt into future downcasting behavior</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'future.no_silent_downcasting'</span>, <span class="va">True</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine groups into a single DataFrame with the 'Group' as an additional covariate</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>combined_data <span class="op">=</span> mock_data</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>combined_data[<span class="st">'Gender'</span>] <span class="op">=</span> combined_data[<span class="st">'Gender'</span>].replace({<span class="st">'Male'</span>:<span class="dv">1</span>, <span class="st">'Female'</span>:<span class="dv">2</span>})</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>combined_data[<span class="st">'SmokingStatus'</span>] <span class="op">=</span> combined_data[<span class="st">'SmokingStatus'</span>].replace({<span class="st">'Never'</span>:<span class="dv">0</span>, <span class="st">'Current'</span>:<span class="dv">1</span>,<span class="st">'Former'</span>:<span class="dv">2</span>})</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>combined_data[<span class="st">'PhysicalActivity'</span>] <span class="op">=</span> combined_data[<span class="st">'PhysicalActivity'</span>].replace({<span class="st">'Low'</span>:<span class="dv">1</span>, <span class="st">'Moderate'</span>:<span class="dv">1</span>,<span class="st">'High'</span>:<span class="dv">2</span>})</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>combined_data[<span class="st">'Education'</span>] <span class="op">=</span> combined_data[<span class="st">'Education'</span>].replace({<span class="st">'High School'</span>:<span class="dv">1</span>, <span class="st">'Bachelor'</span>:<span class="dv">1</span>,<span class="st">'Master'</span>:<span class="dv">3</span>, <span class="st">'PhD'</span>:<span class="dv">4</span>})</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>combined_data[<span class="st">'RaceEthnicity'</span>] <span class="op">=</span> combined_data[<span class="st">'RaceEthnicity'</span>].replace({<span class="st">'White'</span>:<span class="dv">1</span>, <span class="st">'Black'</span>:<span class="dv">2</span>,<span class="st">'Hispanic'</span>:<span class="dv">3</span>, <span class="st">'Asian'</span>:<span class="dv">4</span>, <span class="st">'Other'</span>:<span class="dv">5</span>})</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>combined_data[<span class="st">'Income'</span>] <span class="op">=</span> combined_data[<span class="st">'Income'</span>].replace({<span class="st">'&lt;30K'</span>:<span class="dv">1</span>, <span class="st">'30-60K'</span>:<span class="dv">2</span>,<span class="st">'60-100K'</span>:<span class="dv">3</span>, <span class="st">'&gt;100K'</span>:<span class="dv">4</span>})</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>combined_data[<span class="st">'MaritalStatus'</span>] <span class="op">=</span> combined_data[<span class="st">'MaritalStatus'</span>].replace({<span class="st">'Single'</span>:<span class="dv">1</span>, <span class="st">'Married'</span>:<span class="dv">2</span>,<span class="st">'Divorced'</span>:<span class="dv">3</span>, <span class="st">'Widowed'</span>:<span class="dv">4</span>})</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>combined_data[<span class="st">'EmploymentStatus'</span>] <span class="op">=</span> combined_data[<span class="st">'EmploymentStatus'</span>].replace({<span class="st">'Employed'</span>:<span class="dv">1</span>, <span class="st">'Unemployed'</span>:<span class="dv">2</span>,<span class="st">'Retired'</span>:<span class="dv">3</span>})</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>combined_data[<span class="st">'Group'</span>] <span class="op">=</span> combined_data[<span class="st">'Group'</span>].astype(<span class="st">'category'</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize features</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> combined_data.drop(columns<span class="op">=</span>[<span class="st">'FollowUpTime'</span>, <span class="st">'Outcome'</span>])</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> sm.add_constant(X)  <span class="co"># adds a constant term to the predictors</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>scaled_features <span class="op">=</span> scaler.fit_transform(X)</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>scaled_data <span class="op">=</span> pd.DataFrame(scaled_features, columns<span class="op">=</span>X.columns)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>scaled_data[<span class="st">'FollowUpTime'</span>] <span class="op">=</span> combined_data[<span class="st">'FollowUpTime'</span>].values</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>scaled_data[<span class="st">'Outcome'</span>] <span class="op">=</span> combined_data[<span class="st">'Outcome'</span>].values</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for multicollinearity</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>vif <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>vif[<span class="st">'Feature'</span>] <span class="op">=</span> scaled_data.columns</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>vif[<span class="st">'VIF'</span>] <span class="op">=</span> [variance_inflation_factor(scaled_data.values, i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(scaled_data.shape[<span class="dv">1</span>])]</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vif)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Feature       VIF
+0              const       NaN
+1          PatientID  1.031726
+2              Group  1.035117
+3                Age  1.032283
+4             Gender  1.054207
+5                BMI  1.042135
+6      BloodPressure  1.020399
+7        Cholesterol  1.029551
+8            Glucose  1.037837
+9      SmokingStatus  1.036154
+10  PhysicalActivity  1.053474
+11     Comorbidities  1.052314
+12       Medications  1.021336
+13         Education  1.022416
+14     RaceEthnicity  1.048298
+15            Income  1.036021
+16     MaritalStatus  1.045388
+17  EmploymentStatus  1.048011
+18      FollowUpTime  1.712549
+19           Outcome  1.732979</code></pre>
+</div>
+</div>
+</section>
+<section id="cox-proportional-hazards-model-check-infinte-values" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="cox-proportional-hazards-model-check-infinte-values"><span class="header-section-number">3.4</span> Cox Proportional Hazards Model: Check Infinte Values</h2>
+<div id="7838177e-3208-4fd5-a4c3-62159ef3591f" class="cell" data-execution_count="158">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for NaNs and infinite values -- We know there are none, but good practice. </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(scaled_data.isna().<span class="bu">sum</span>())</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>((scaled_data <span class="op">==</span> <span class="bu">float</span>(<span class="st">'inf'</span>)).<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>const               0
+PatientID           0
+Group               0
+Age                 0
+Gender              0
+BMI                 0
+BloodPressure       0
+Cholesterol         0
+Glucose             0
+SmokingStatus       0
+PhysicalActivity    0
+Comorbidities       0
+Medications         0
+Education           0
+RaceEthnicity       0
+Income              0
+MaritalStatus       0
+EmploymentStatus    0
+FollowUpTime        0
+Outcome             0
+dtype: int64
+const               0
+PatientID           0
+Group               0
+Age                 0
+Gender              0
+BMI                 0
+BloodPressure       0
+Cholesterol         0
+Glucose             0
+SmokingStatus       0
+PhysicalActivity    0
+Comorbidities       0
+Medications         0
+Education           0
+RaceEthnicity       0
+Income              0
+MaritalStatus       0
+EmploymentStatus    0
+FollowUpTime        0
+Outcome             0
+dtype: int64</code></pre>
+</div>
+</div>
+</section>
+<section id="initialize-and-fit-the-cox-proportional-hazards-model" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="initialize-and-fit-the-cox-proportional-hazards-model"><span class="header-section-number">3.5</span> Initialize and fit the Cox Proportional Hazards model</h2>
+<div id="a9321c80-d966-4059-9512-ca61299e77e8" class="cell" data-execution_count="159">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize and fit the Cox Proportional Hazards model</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Remove variables that express multicollinearity and also those with low variance</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>scaled_data <span class="op">=</span> scaled_data.drop(columns<span class="op">=</span>[<span class="st">'RaceEthnicity'</span>, <span class="st">'Income'</span>])</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>scaled_data <span class="op">=</span> scaled_data.drop(columns<span class="op">=</span>[<span class="st">'const'</span>], errors<span class="op">=</span><span class="st">'ignore'</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize CoxPHFitter with L1 regularization (Lasso)</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>cph <span class="op">=</span> CoxPHFitter(penalizer<span class="op">=</span><span class="fl">0.1</span>)  <span class="co"># Adjust the penalizer as needed</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>cph.fit(scaled_data, duration_col<span class="op">=</span><span class="st">'FollowUpTime'</span>, event_col<span class="op">=</span><span class="st">'Outcome'</span>, show_progress<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the summary</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cph.summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Iteration 1: norm_delta = 2.21e-01, step_size = 0.9500, log_lik = -1327.35045, newton_decrement = 6.82e+00, seconds_since_start = 0.0
+Iteration 2: norm_delta = 8.35e-03, step_size = 0.9500, log_lik = -1320.64049, newton_decrement = 1.02e-02, seconds_since_start = 0.0
+Iteration 3: norm_delta = 4.24e-04, step_size = 0.9500, log_lik = -1320.63034, newton_decrement = 2.62e-05, seconds_since_start = 0.0
+Iteration 4: norm_delta = 2.40e-08, step_size = 1.0000, log_lik = -1320.63032, newton_decrement = 9.53e-14, seconds_since_start = 0.0
+Convergence success after 4 iterations.
+                      coef  exp(coef)  se(coef)  coef lower 95%  \
+covariate                                                         
+PatientID         0.017891   1.018052  0.057673       -0.095147   
+Group             0.027470   1.027851  0.059287       -0.088731   
+Age               0.021111   1.021336  0.059988       -0.096463   
+Gender            0.024839   1.025150  0.059020       -0.090839   
+BMI               0.065713   1.067920  0.059624       -0.051149   
+BloodPressure     0.043430   1.044387  0.056973       -0.068235   
+Cholesterol      -0.001280   0.998721  0.060051       -0.118978   
+Glucose           0.003125   1.003130  0.059146       -0.112798   
+SmokingStatus    -0.065860   0.936262  0.055772       -0.175171   
+PhysicalActivity  0.125096   1.133257  0.058294        0.010841   
+Comorbidities    -0.111948   0.894091  0.058645       -0.226891   
+Medications      -0.015634   0.984487  0.057895       -0.129106   
+Education         0.050015   1.051287  0.058423       -0.064492   
+MaritalStatus     0.050143   1.051422  0.060367       -0.068173   
+EmploymentStatus -0.017431   0.982720  0.059560       -0.134167   
+
+                  coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%  \
+covariate                                                                    
+PatientID               0.130929             0.909239             1.139886   
+Group                   0.143671             0.915092             1.154504   
+Age                     0.138685             0.908044             1.148762   
+Gender                  0.140516             0.913165             1.150868   
+BMI                     0.182574             0.950137             1.200303   
+BloodPressure           0.155095             0.934041             1.167769   
+Cholesterol             0.116419             0.887827             1.123467   
+Glucose                 0.119049             0.893331             1.126425   
+SmokingStatus           0.043451             0.839314             1.044409   
+PhysicalActivity        0.239351             1.010900             1.270424   
+Comorbidities           0.002995             0.797008             1.002999   
+Medications             0.097838             0.878881             1.102784   
+Education               0.164523             0.937544             1.178831   
+MaritalStatus           0.168460             0.934099             1.183481   
+EmploymentStatus        0.099305             0.874444             1.104403   
+
+                  cmp to         z         p  -log2(p)  
+covariate                                               
+PatientID            0.0  0.310208  0.756403  0.402773  
+Group                0.0  0.463340  0.643121  0.636839  
+Age                  0.0  0.351926  0.724894  0.464159  
+Gender               0.0  0.420849  0.673865  0.569468  
+BMI                  0.0  1.102112  0.270413  1.886763  
+BloodPressure        0.0  0.762291  0.445887  1.165251  
+Cholesterol          0.0 -0.021309  0.982999  0.024738  
+Glucose              0.0  0.052840  0.957859  0.062114  
+SmokingStatus        0.0 -1.180876  0.237652  2.073079  
+PhysicalActivity     0.0  2.145935  0.031878  4.971288  
+Comorbidities        0.0 -1.908900  0.056275  4.151362  
+Medications          0.0 -0.270045  0.787126  0.345334  
+Education            0.0  0.856088  0.391949  1.351261  
+MaritalStatus        0.0  0.830647  0.406173  1.299833  
+EmploymentStatus     0.0 -0.292664  0.769779  0.377484  </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="fourth-step-model-validation-and-sensitiviy-analysis" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Fourth Step: Model Validation and Sensitiviy Analysis</h1>
+<section id="model-validation" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="model-validation"><span class="header-section-number">4.1</span> Model Validation</h2>
+<div id="dbc699dc-0455-497a-8a81-f3ca2052e127" class="cell" data-execution_count="160">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model Validation</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> lifelines.utils <span class="im">import</span> concordance_index</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.proportion <span class="im">import</span> proportion_confint</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Schoenfeld Residuals</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the Cox model</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>cph <span class="op">=</span> CoxPHFitter(penalizer<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>cph.fit(scaled_data, duration_col<span class="op">=</span><span class="st">'FollowUpTime'</span>, event_col<span class="op">=</span><span class="st">'Outcome'</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract Schoenfeld residuals</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>residuals <span class="op">=</span> cph.compute_residuals(scaled_data, kind<span class="op">=</span><span class="st">'schoenfeld'</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(residuals.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>covariate  PatientID     Group       Age    Gender       BMI  BloodPressure  \
+289         0.260823  0.939134 -1.131451 -0.970501  1.116561      -0.230472   
+442         1.320840 -1.061442 -1.275173  1.031437 -0.260495       1.670712   
+189        -0.432768  0.943606  0.979582  1.039508  1.068002      -0.409806   
+74         -1.239359 -1.047581 -0.835946  1.039990 -0.783947       1.465723   
+56         -1.368195  0.953607  0.836305  1.046399  0.673628      -0.603815   
+
+covariate  Cholesterol   Glucose  SmokingStatus  PhysicalActivity  \
+289           1.385313  1.674101      -1.113951          1.223827   
+442           0.672464  1.145871       0.108565         -0.862061   
+189          -1.461020  1.589793       1.326780          1.223479   
+74            0.208752 -1.234285       0.102925          1.231311   
+56           -0.871949  1.548478      -1.113243          1.224259   
+
+covariate  Comorbidities  Medications  Education  MaritalStatus  \
+289             0.070170     0.967612  -0.993463      -0.462838   
+442             1.480968    -1.033685   1.276660       1.326042   
+189            -1.338596     0.968266  -0.997465       1.328285   
+74             -1.341011     0.973654  -0.998420      -1.356827   
+56              0.770485    -1.021119   1.268430      -0.467605   
+
+covariate  EmploymentStatus  
+289                1.187289  
+442               -0.052025  
+189               -0.050001  
+74                 1.192341  
+56                -0.049878  </code></pre>
+</div>
+</div>
+</section>
+<section id="log-log-survival-plot" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="log-log-survival-plot"><span class="header-section-number">4.2</span> Log-Log Survival Plot</h2>
+<div id="05a897c7-3827-4ddf-b880-3eb13c12bdb9" class="cell" data-execution_count="162">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Log-Log Survival Plot</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate survival functions for a categorical variable</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> group <span class="kw">in</span> scaled_data[<span class="st">'Group'</span>].unique():</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> scaled_data[scaled_data[<span class="st">'Group'</span>] <span class="op">==</span> group]</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    kmf <span class="op">=</span> KaplanMeierFitter()</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    kmf.fit(durations<span class="op">=</span>subset[<span class="st">'FollowUpTime'</span>], event_observed<span class="op">=</span>subset[<span class="st">'Outcome'</span>])</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    kmf.plot(label<span class="op">=</span><span class="ss">f'Group </span><span class="sc">{</span>group<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Follow-Up Time'</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Survival Probability'</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Survival Curves by Group'</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Survivor_Analysis_MockDatset_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="c-index" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="c-index"><span class="header-section-number">4.3</span> C-Index</h2>
+<div id="b304cdac-45ad-4398-b842-937f5d3eb649" class="cell" data-execution_count="163">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#C-Index</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate C-index</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>c_index <span class="op">=</span> concordance_index(scaled_data[<span class="st">'FollowUpTime'</span>], <span class="op">-</span>cph.predict_partial_hazard(scaled_data), scaled_data[<span class="st">'Outcome'</span>])</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'C-index: </span><span class="sc">{</span>c_index<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>C-index: 0.5844883799367201</code></pre>
+</div>
+</div>
+</section>
+<section id="residuals-analysis" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="residuals-analysis"><span class="header-section-number">4.4</span> Residuals Analysis</h2>
+<div id="9bad1966-b86b-4f17-a4db-7b5bd30ae499" class="cell" data-execution_count="164">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Residuals Analysis</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>residuals <span class="op">=</span> cph.compute_residuals(scaled_data, kind<span class="op">=</span><span class="st">'schoenfeld'</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>plt.hist(residuals)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Histogram of Schoenfeld Residuals'</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Residual Value'</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Survivor_Analysis_MockDatset_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sensitiviy-analysis" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="sensitiviy-analysis"><span class="header-section-number">4.5</span> Sensitiviy Analysis</h2>
+<div id="bb354ef2-8fa1-4d55-8396-17fb458bbda8" class="cell" data-execution_count="165">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sensitiviy Analysis</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Different Penalizer Values</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>penalizers <span class="op">=</span> [<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">1.0</span>]</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> penalizer <span class="kw">in</span> penalizers:</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    cph <span class="op">=</span> CoxPHFitter(penalizer<span class="op">=</span>penalizer)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    cph.fit(scaled_data, duration_col<span class="op">=</span><span class="st">'FollowUpTime'</span>, event_col<span class="op">=</span><span class="st">'Outcome'</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Penalizer: </span><span class="sc">{</span>penalizer<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(cph.summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Penalizer: 0.01
+                      coef  exp(coef)  se(coef)  coef lower 95%  \
+covariate                                                         
+PatientID         0.020774   1.020991  0.062808       -0.102327   
+Group             0.031319   1.031815  0.065136       -0.096345   
+Age               0.022836   1.023099  0.065818       -0.106165   
+Gender            0.030595   1.031067  0.064656       -0.096128   
+BMI               0.077610   1.080701  0.065577       -0.050919   
+BloodPressure     0.050420   1.051713  0.061929       -0.070959   
+Cholesterol      -0.006935   0.993089  0.066006       -0.136306   
+Glucose           0.003600   1.003606  0.064876       -0.123554   
+SmokingStatus    -0.074992   0.927751  0.060286       -0.193151   
+PhysicalActivity  0.150421   1.162323  0.063165        0.026619   
+Comorbidities    -0.133983   0.874605  0.064268       -0.259946   
+Medications      -0.019462   0.980726  0.062937       -0.142817   
+Education         0.058498   1.060243  0.063864       -0.066672   
+MaritalStatus     0.068355   1.070745  0.066584       -0.062146   
+EmploymentStatus -0.020588   0.979623  0.065334       -0.148640   
+
+                  coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%  \
+covariate                                                                    
+PatientID               0.143876             0.902734             1.154741   
+Group                   0.158984             0.908150             1.172319   
+Age                     0.151837             0.899276             1.163970   
+Gender                  0.157318             0.908347             1.170367   
+BMI                     0.206139             0.950356             1.228924   
+BloodPressure           0.171799             0.931500             1.187439   
+Cholesterol             0.122435             0.872576             1.130245   
+Glucose                 0.130754             0.883774             1.139687   
+SmokingStatus           0.043167             0.824358             1.044112   
+PhysicalActivity        0.274222             1.026977             1.315507   
+Comorbidities          -0.008019             0.771093             0.992013   
+Medications             0.103892             0.866913             1.109480   
+Education               0.183669             0.935502             1.201619   
+MaritalStatus           0.198856             0.939745             1.220007   
+EmploymentStatus        0.107464             0.861879             1.113451   
+
+                  cmp to         z         p  -log2(p)  
+covariate                                               
+PatientID            0.0  0.330757  0.740828  0.432789  
+Group                0.0  0.480828  0.630639  0.665114  
+Age                  0.0  0.346954  0.728626  0.456750  
+Gender               0.0  0.473193  0.636076  0.652730  
+BMI                  0.0  1.183493  0.236614  2.079393  
+BloodPressure        0.0  0.814161  0.415553  1.266897  
+Cholesterol          0.0 -0.105072  0.916319  0.126078  
+Glucose              0.0  0.055487  0.955750  0.065294  
+SmokingStatus        0.0 -1.243934  0.213524  2.227531  
+PhysicalActivity     0.0  2.381389  0.017247  5.857471  
+Comorbidities        0.0 -2.084746  0.037092  4.752732  
+Medications          0.0 -0.309236  0.757142  0.401364  
+Education            0.0  0.915987  0.359674  1.475239  
+MaritalStatus        0.0  1.026604  0.304607  1.714979  
+EmploymentStatus     0.0 -0.315116  0.752673  0.409904  
+Penalizer: 0.1
+                      coef  exp(coef)  se(coef)  coef lower 95%  \
+covariate                                                         
+PatientID         0.017891   1.018052  0.057673       -0.095147   
+Group             0.027470   1.027851  0.059287       -0.088731   
+Age               0.021111   1.021336  0.059988       -0.096463   
+Gender            0.024839   1.025150  0.059020       -0.090839   
+BMI               0.065713   1.067920  0.059624       -0.051149   
+BloodPressure     0.043430   1.044387  0.056973       -0.068235   
+Cholesterol      -0.001280   0.998721  0.060051       -0.118978   
+Glucose           0.003125   1.003130  0.059146       -0.112798   
+SmokingStatus    -0.065860   0.936262  0.055772       -0.175171   
+PhysicalActivity  0.125096   1.133257  0.058294        0.010841   
+Comorbidities    -0.111948   0.894091  0.058645       -0.226891   
+Medications      -0.015634   0.984487  0.057895       -0.129106   
+Education         0.050015   1.051287  0.058423       -0.064492   
+MaritalStatus     0.050143   1.051422  0.060367       -0.068173   
+EmploymentStatus -0.017431   0.982720  0.059560       -0.134167   
+
+                  coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%  \
+covariate                                                                    
+PatientID               0.130929             0.909239             1.139886   
+Group                   0.143671             0.915092             1.154504   
+Age                     0.138685             0.908044             1.148762   
+Gender                  0.140516             0.913165             1.150868   
+BMI                     0.182574             0.950137             1.200303   
+BloodPressure           0.155095             0.934041             1.167769   
+Cholesterol             0.116419             0.887827             1.123467   
+Glucose                 0.119049             0.893331             1.126425   
+SmokingStatus           0.043451             0.839314             1.044409   
+PhysicalActivity        0.239351             1.010900             1.270424   
+Comorbidities           0.002995             0.797008             1.002999   
+Medications             0.097838             0.878881             1.102784   
+Education               0.164523             0.937544             1.178831   
+MaritalStatus           0.168460             0.934099             1.183481   
+EmploymentStatus        0.099305             0.874444             1.104403   
+
+                  cmp to         z         p  -log2(p)  
+covariate                                               
+PatientID            0.0  0.310208  0.756403  0.402773  
+Group                0.0  0.463340  0.643121  0.636839  
+Age                  0.0  0.351926  0.724894  0.464159  
+Gender               0.0  0.420849  0.673865  0.569468  
+BMI                  0.0  1.102112  0.270413  1.886763  
+BloodPressure        0.0  0.762291  0.445887  1.165251  
+Cholesterol          0.0 -0.021309  0.982999  0.024738  
+Glucose              0.0  0.052840  0.957859  0.062114  
+SmokingStatus        0.0 -1.180876  0.237652  2.073079  
+PhysicalActivity     0.0  2.145935  0.031878  4.971288  
+Comorbidities        0.0 -1.908900  0.056275  4.151362  
+Medications          0.0 -0.270045  0.787126  0.345334  
+Education            0.0  0.856088  0.391949  1.351261  
+MaritalStatus        0.0  0.830647  0.406173  1.299833  
+EmploymentStatus     0.0 -0.292664  0.769779  0.377484  
+Penalizer: 1.0
+                      coef  exp(coef)  se(coef)  coef lower 95%  \
+covariate                                                         
+PatientID         0.007487   1.007515  0.036339       -0.063737   
+Group             0.012529   1.012608  0.036596       -0.059197   
+Age               0.010502   1.010558  0.036880       -0.061782   
+Gender            0.008742   1.008780  0.036573       -0.062939   
+BMI               0.027403   1.027782  0.036610       -0.044351   
+BloodPressure     0.018975   1.019156  0.036116       -0.051811   
+Cholesterol       0.005099   1.005112  0.036848       -0.067122   
+Glucose           0.000594   1.000595  0.036625       -0.071189   
+SmokingStatus    -0.029269   0.971155  0.035893       -0.099618   
+PhysicalActivity  0.046276   1.047363  0.036774       -0.025800   
+Comorbidities    -0.043833   0.957113  0.036457       -0.115288   
+Medications      -0.004964   0.995048  0.036469       -0.076442   
+Education         0.020247   1.020454  0.036493       -0.051278   
+MaritalStatus     0.010270   1.010323  0.036786       -0.061830   
+EmploymentStatus -0.007586   0.992443  0.036740       -0.079595   
+
+                  coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%  \
+covariate                                                                    
+PatientID               0.078711             0.938252             1.081892   
+Group                   0.084256             0.942521             1.087907   
+Age                     0.082787             0.940088             1.086310   
+Gender                  0.080423             0.939000             1.083745   
+BMI                     0.099157             0.956618             1.104240   
+BloodPressure           0.089762             0.949508             1.093914   
+Cholesterol             0.077320             0.935081             1.080387   
+Glucose                 0.072378             0.931286             1.075062   
+SmokingStatus           0.041079             0.905183             1.041934   
+PhysicalActivity        0.118352             0.974530             1.125640   
+Comorbidities           0.027621             0.891109             1.028006   
+Medications             0.066514             0.926407             1.068776   
+Education               0.091773             0.950014             1.096116   
+MaritalStatus           0.082369             0.940043             1.085856   
+EmploymentStatus        0.064424             0.923490             1.066545   
+
+                  cmp to         z         p  -log2(p)  
+covariate                                               
+PatientID            0.0  0.206031  0.836767  0.257103  
+Group                0.0  0.342368  0.732074  0.449938  
+Age                  0.0  0.284769  0.775821  0.366204  
+Gender               0.0  0.239021  0.811090  0.302067  
+BMI                  0.0  0.748518  0.454148  1.138767  
+BloodPressure        0.0  0.525391  0.599312  0.738622  
+Cholesterol          0.0  0.138370  0.889948  0.168207  
+Glucose              0.0  0.016230  0.987051  0.018804  
+SmokingStatus        0.0 -0.815473  0.414802  1.269506  
+PhysicalActivity     0.0  1.258379  0.208255  2.263578  
+Comorbidities        0.0 -1.202328  0.229236  2.125092  
+Medications          0.0 -0.136116  0.891730  0.165321  
+Education            0.0  0.554818  0.579019  0.788317  
+MaritalStatus        0.0  0.279172  0.780113  0.358246  
+EmploymentStatus     0.0 -0.206463  0.836430  0.257684  </code></pre>
+</div>
+</div>
+</section>
+<section id="model-re-specification-with-interaction-terms" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="model-re-specification-with-interaction-terms"><span class="header-section-number">4.6</span> Model Re-specification with Interaction Terms</h2>
+<div id="8e0caa66-fc04-4111-87c8-fb728b4fe133" class="cell" data-execution_count="166">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model Re-specification with Interaction Terms</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>scaled_data[<span class="st">'Age_BMI'</span>] <span class="op">=</span> scaled_data[<span class="st">'Age'</span>] <span class="op">*</span> scaled_data[<span class="st">'BMI'</span>]</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>cph_interaction <span class="op">=</span> CoxPHFitter(penalizer<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>cph_interaction.fit(scaled_data, duration_col<span class="op">=</span><span class="st">'FollowUpTime'</span>, event_col<span class="op">=</span><span class="st">'Outcome'</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cph_interaction.summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                      coef  exp(coef)  se(coef)  coef lower 95%  \
+covariate                                                         
+PatientID         0.006291   1.006311  0.058243       -0.107863   
+Group             0.018790   1.018967  0.059425       -0.097681   
+Age               0.015338   1.015456  0.059972       -0.102205   
+Gender            0.013682   1.013776  0.059179       -0.102306   
+BMI               0.057375   1.059052  0.059847       -0.059923   
+BloodPressure     0.045101   1.046134  0.056953       -0.066524   
+Cholesterol       0.003012   1.003017  0.060143       -0.114865   
+Glucose          -0.001482   0.998520  0.059106       -0.117327   
+SmokingStatus    -0.060968   0.940853  0.055824       -0.170382   
+PhysicalActivity  0.123825   1.131818  0.058375        0.009411   
+Comorbidities    -0.111560   0.894438  0.058698       -0.226605   
+Medications      -0.024089   0.976198  0.058017       -0.137801   
+Education         0.039966   1.040775  0.058829       -0.075336   
+MaritalStatus     0.047822   1.048984  0.060303       -0.070370   
+EmploymentStatus -0.020991   0.979228  0.059523       -0.137654   
+Age_BMI          -0.135653   0.873145  0.061027       -0.255264   
+
+                  coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%  \
+covariate                                                                    
+PatientID               0.120444             0.897751             1.127998   
+Group                   0.135260             0.906938             1.144835   
+Age                     0.132881             0.902845             1.142114   
+Gender                  0.129670             0.902753             1.138453   
+BMI                     0.174673             0.941837             1.190856   
+BloodPressure           0.156727             0.935640             1.169676   
+Cholesterol             0.120890             0.891487             1.128500   
+Glucose                 0.114363             0.889295             1.121159   
+SmokingStatus           0.048445             0.843343             1.049638   
+PhysicalActivity        0.238239             1.009456             1.269012   
+Comorbidities           0.003486             0.797235             1.003492   
+Medications             0.089622             0.871272             1.093761   
+Education               0.155268             0.927432             1.167971   
+MaritalStatus           0.166014             0.932049             1.180589   
+EmploymentStatus        0.095672             0.871400             1.100399   
+Age_BMI                -0.016043             0.774712             0.984085   
+
+                  cmp to         z         p  -log2(p)  
+covariate                                               
+PatientID            0.0  0.108009  0.913989  0.129752  
+Group                0.0  0.316193  0.751856  0.411472  
+Age                  0.0  0.255755  0.798140  0.325286  
+Gender               0.0  0.231202  0.817158  0.291313  
+BMI                  0.0  0.958688  0.337716  1.566118  
+BloodPressure        0.0  0.791903  0.428417  1.222912  
+Cholesterol          0.0  0.050088  0.960052  0.058815  
+Glucose              0.0 -0.025067  0.980002  0.029144  
+SmokingStatus        0.0 -1.092146  0.274769  1.863708  
+PhysicalActivity     0.0  2.121186  0.033906  4.882310  
+Comorbidities        0.0 -1.900577  0.057357  4.123876  
+Medications          0.0 -0.415212  0.677987  0.560671  
+Education            0.0  0.679363  0.496908  1.008949  
+MaritalStatus        0.0  0.793021  0.427765  1.225109  
+EmploymentStatus     0.0 -0.352651  0.724350  0.465241  
+Age_BMI              0.0 -2.222847  0.026226  5.252852  </code></pre>
+</div>
+</div>
+</section>
+<section id="outlier-detection" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="outlier-detection"><span class="header-section-number">4.7</span> Outlier Detection</h2>
+<div id="0166f112-b99c-4539-b06b-ff9fa72424ba" class="cell" data-execution_count="190">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add this section after your Cox model fitting and before model validation</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Outlier Detection</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Using Z-scores for numerical variables</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Detect outliers</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>z_scores <span class="op">=</span> np.<span class="bu">abs</span>(stats.zscore(combined_data[[<span class="st">'Age'</span>, <span class="st">'BMI'</span>, <span class="st">'FollowUpTime'</span>]]))</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>outliers <span class="op">=</span> (z_scores <span class="op">&gt;</span> <span class="dv">3</span>).<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Fit Cox model with outliers</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>cph_with_outliers <span class="op">=</span> CoxPHFitter(penalizer<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>cph_with_outliers.fit(combined_data, duration_col<span class="op">=</span><span class="st">'FollowUpTime'</span>, event_col<span class="op">=</span><span class="st">'Outcome'</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Fit Cox model without outliers</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>cph_without_outliers <span class="op">=</span> CoxPHFitter(penalizer<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>cph_without_outliers.fit(combined_data[<span class="op">~</span>outliers], duration_col<span class="op">=</span><span class="st">'FollowUpTime'</span>, event_col<span class="op">=</span><span class="st">'Outcome'</span>)</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Compare results</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Model summary with outliers:"</span>)</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cph_with_outliers.summary)</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Model summary without outliers:"</span>)</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cph_without_outliers.summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Model summary with outliers:
+                      coef  exp(coef)  se(coef)  coef lower 95%  \
+covariate                                                         
+PatientID         0.000108   1.000108  0.000398       -0.000673   
+Group             0.019433   1.019623  0.119096       -0.213990   
+Age               0.001142   1.001143  0.002873       -0.004488   
+Gender            0.057489   1.059173  0.119616       -0.176955   
+BMI               0.011804   1.011874  0.009323       -0.006469   
+BloodPressure     0.002191   1.002193  0.002240       -0.002200   
+Cholesterol       0.000086   1.000086  0.001050       -0.001971   
+Glucose           0.000105   1.000105  0.001548       -0.002929   
+SmokingStatus    -0.078738   0.924283  0.068566       -0.213125   
+PhysicalActivity  0.291563   1.338518  0.122328        0.051805   
+Comorbidities    -0.082035   0.921240  0.041498       -0.163370   
+Medications      -0.028585   0.971820  0.116322       -0.256572   
+Education         0.032876   1.033422  0.044288       -0.053926   
+RaceEthnicity     0.098645   1.103675  0.041784        0.016751   
+Income            0.077888   1.081002  0.052825       -0.025647   
+MaritalStatus     0.042182   1.043084  0.054279       -0.064202   
+EmploymentStatus -0.011461   0.988605  0.074028       -0.156553   
+
+                  coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%  \
+covariate                                                                    
+PatientID               0.000889             0.999328             1.000890   
+Group                   0.252856             0.807356             1.287698   
+Age                     0.006773             0.995522             1.006796   
+Gender                  0.291932             0.837817             1.339012   
+BMI                     0.030078             0.993552             1.030534   
+BloodPressure           0.006582             0.997803             1.006603   
+Cholesterol             0.002143             0.998031             1.002146   
+Glucose                 0.003138             0.997076             1.003143   
+SmokingStatus           0.055650             0.808055             1.057228   
+PhysicalActivity        0.531321             1.053170             1.701178   
+Comorbidities          -0.000701             0.849277             0.999299   
+Medications             0.199403             0.773699             1.220673   
+Education               0.119678             0.947502             1.127134   
+RaceEthnicity           0.180540             1.016892             1.197864   
+Income                  0.181424             0.974679             1.198924   
+MaritalStatus           0.148566             0.937816             1.160169   
+EmploymentStatus        0.133632             0.855086             1.142972   
+
+                  cmp to         z         p  -log2(p)  
+covariate                                               
+PatientID            0.0  0.272112  0.785536  0.348251  
+Group                0.0  0.163172  0.870383  0.200277  
+Age                  0.0  0.397664  0.690878  0.533497  
+Gender               0.0  0.480608  0.630795  0.664757  
+BMI                  0.0  1.266146  0.205461  2.283064  
+BloodPressure        0.0  0.978010  0.328069  1.607928  
+Cholesterol          0.0  0.082169  0.934512  0.097714  
+Glucose              0.0  0.067629  0.946081  0.079965  
+SmokingStatus        0.0 -1.148339  0.250829  1.995225  
+PhysicalActivity     0.0  2.383457  0.017151  5.865571  
+Comorbidities        0.0 -1.976852  0.048058  4.379067  
+Medications          0.0 -0.245736  0.805886  0.311352  
+Education            0.0  0.742327  0.457889  1.126930  
+RaceEthnicity        0.0  2.360870  0.018232  5.777372  
+Income               0.0  1.474451  0.140360  2.832795  
+MaritalStatus        0.0  0.777140  0.437076  1.194043  
+EmploymentStatus     0.0 -0.154813  0.876969  0.189403  
+
+Model summary without outliers:
+                      coef  exp(coef)  se(coef)  coef lower 95%  \
+covariate                                                         
+PatientID         0.000108   1.000108  0.000398       -0.000673   
+Group             0.019433   1.019623  0.119096       -0.213990   
+Age               0.001142   1.001143  0.002873       -0.004488   
+Gender            0.057489   1.059173  0.119616       -0.176955   
+BMI               0.011804   1.011874  0.009323       -0.006469   
+BloodPressure     0.002191   1.002193  0.002240       -0.002200   
+Cholesterol       0.000086   1.000086  0.001050       -0.001971   
+Glucose           0.000105   1.000105  0.001548       -0.002929   
+SmokingStatus    -0.078738   0.924283  0.068566       -0.213125   
+PhysicalActivity  0.291563   1.338518  0.122328        0.051805   
+Comorbidities    -0.082035   0.921240  0.041498       -0.163370   
+Medications      -0.028585   0.971820  0.116322       -0.256572   
+Education         0.032876   1.033422  0.044288       -0.053926   
+RaceEthnicity     0.098645   1.103675  0.041784        0.016751   
+Income            0.077888   1.081002  0.052825       -0.025647   
+MaritalStatus     0.042182   1.043084  0.054279       -0.064202   
+EmploymentStatus -0.011461   0.988605  0.074028       -0.156553   
+
+                  coef upper 95%  exp(coef) lower 95%  exp(coef) upper 95%  \
+covariate                                                                    
+PatientID               0.000889             0.999328             1.000890   
+Group                   0.252856             0.807356             1.287698   
+Age                     0.006773             0.995522             1.006796   
+Gender                  0.291932             0.837817             1.339012   
+BMI                     0.030078             0.993552             1.030534   
+BloodPressure           0.006582             0.997803             1.006603   
+Cholesterol             0.002143             0.998031             1.002146   
+Glucose                 0.003138             0.997076             1.003143   
+SmokingStatus           0.055650             0.808055             1.057228   
+PhysicalActivity        0.531321             1.053170             1.701178   
+Comorbidities          -0.000701             0.849277             0.999299   
+Medications             0.199403             0.773699             1.220673   
+Education               0.119678             0.947502             1.127134   
+RaceEthnicity           0.180540             1.016892             1.197864   
+Income                  0.181424             0.974679             1.198924   
+MaritalStatus           0.148566             0.937816             1.160169   
+EmploymentStatus        0.133632             0.855086             1.142972   
+
+                  cmp to         z         p  -log2(p)  
+covariate                                               
+PatientID            0.0  0.272112  0.785536  0.348251  
+Group                0.0  0.163172  0.870383  0.200277  
+Age                  0.0  0.397664  0.690878  0.533497  
+Gender               0.0  0.480608  0.630795  0.664757  
+BMI                  0.0  1.266146  0.205461  2.283064  
+BloodPressure        0.0  0.978010  0.328069  1.607928  
+Cholesterol          0.0  0.082169  0.934512  0.097714  
+Glucose              0.0  0.067629  0.946081  0.079965  
+SmokingStatus        0.0 -1.148339  0.250829  1.995225  
+PhysicalActivity     0.0  2.383457  0.017151  5.865571  
+Comorbidities        0.0 -1.976852  0.048058  4.379067  
+Medications          0.0 -0.245736  0.805886  0.311352  
+Education            0.0  0.742327  0.457889  1.126930  
+RaceEthnicity        0.0  2.360870  0.018232  5.777372  
+Income               0.0  1.474451  0.140360  2.832795  
+MaritalStatus        0.0  0.777140  0.437076  1.194043  
+EmploymentStatus     0.0 -0.154813  0.876969  0.189403  </code></pre>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
