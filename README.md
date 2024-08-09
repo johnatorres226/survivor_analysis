@@ -8,20 +8,23 @@ Model Fitting: Using the Cox Proportional Hazards model to analyze the impact of
 Model Validation: Evaluating model performance using metrics such as concordance index and proportional hazards assumption tests.
 Sensitivity Analysis: Investigating the impact of outliers and influential observations on the model's results.
 Visualization: Generating plots to explore relationships between residuals and follow-up times, and assessing the influence of various features.
-Features:
 
+Features:
 Data Preparation: Scripts for data cleaning, feature engineering, and encoding.
 CoxPH Model: Implementation and fitting of the Cox Proportional Hazards model using the lifelines library.
 Validation: Code for computing and interpreting validation metrics.
 Sensitivity Analysis: Techniques for identifying and analyzing outliers and influential data points.
 Plots and Visualizations: Visual representations of model diagnostics and analysis results.
-Requirements:
 
+Samples: 
+PDF and HTML reports created with Quarto. Samples for PDF are with and without code. 
+
+Requirements:
 Python 3.x
 pandas, numpy, matplotlib, lifelines, statsmodels
 Jupyter Notebook or similar environment for interactive analysis
-Usage:
 
+Usage:
 Load and preprocess your dataset using the provided scripts.
 Fit the Cox Proportional Hazards model to your data.
 Evaluate the model using validation metrics and plots.
