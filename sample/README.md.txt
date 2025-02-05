@@ -1,0 +1,1 @@
+These are the Quatro html output files. The `survivor_analysis_files` directory are used for the html file to reference the images.
